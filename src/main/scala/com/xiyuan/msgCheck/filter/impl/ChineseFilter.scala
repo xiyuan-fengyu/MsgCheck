@@ -11,7 +11,7 @@ import com.xiyuan.msgCheck.values.StaticValues
   */
 class ChineseFilter(minPercent: Double, maxSpecial: Int) extends Filter {
 
-  override def isDirty(str: String): Boolean = {
+  override def check(str: String): Boolean = {
     if (str == null || str.isEmpty) {
       true
     }
@@ -27,12 +27,7 @@ class ChineseFilter(minPercent: Double, maxSpecial: Int) extends Filter {
         }
       })
 
-      if (chineseCount / str.length.toDouble < minPercent || specialCount > maxSpecial) {
-        true
-      }
-      else {
-        nextCheck(str)
-      }
+      chineseCount / str.length.toDouble < minPercent || specialCount > maxSpecial
     }
   }
 

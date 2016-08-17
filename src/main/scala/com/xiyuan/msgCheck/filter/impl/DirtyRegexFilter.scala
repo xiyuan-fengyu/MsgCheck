@@ -16,19 +16,11 @@ class DirtyRegexFilter extends Filter {
 
   private val regexes = new ArrayBuffer[String]()
 
-  override final def isDirty(str: String): Boolean = {
+  override final def check(str: String): Boolean = {
     if (regexes.isEmpty) {
       initRegexes()
     }
-
-    val flag = regexes.exists(str.matches)
-
-    if (flag) {
-      true
-    }
-    else {
-      nextCheck(str)
-    }
+    regexes.exists(str.matches)
   }
 
   def initRegexes(): Unit = {

@@ -8,13 +8,8 @@ import com.xiyuan.msgCheck.filter.Filter
   */
 class LengthFilter(minLen: Int) extends Filter {
 
-  override def isDirty(str: String): Boolean = {
-    if (str == null || str.length < minLen) {
-      true
-    }
-    else {
-      nextCheck(str)
-    }
+  override def check(str: String): Boolean = {
+    str == null || str.length < minLen
   }
 
 }

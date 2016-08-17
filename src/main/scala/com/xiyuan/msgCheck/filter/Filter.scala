@@ -18,6 +18,21 @@ abstract class Filter {
     else false
   }
 
-  def isDirty(str: String): Boolean
+  final def isDirty(str: String): Boolean = {
+    if (check(str)) {
+      true
+    }
+    else {
+      val nextCheckResult = nextCheck(str)
+      afterNextCheck(str, nextCheckResult)
+      nextCheckResult
+    }
+  }
+
+  def check(str: String): Boolean
+
+  def afterNextCheck(str: String, isDirty: Boolean): Unit ={
+
+  }
 
 }
