@@ -30,7 +30,7 @@ class MsgChecker {
       false
     }
     else {
-      filters.head.isDirty(str)
+      filters.head.isDirty(str.toLowerCase)
     }
   }
 

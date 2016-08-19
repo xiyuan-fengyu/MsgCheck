@@ -22,14 +22,25 @@ abstract class Filter {
     if (check(str)) {
       true
     }
-    else {
+    else if (needNextCheck) {
       val nextCheckResult = nextCheck(str)
       afterNextCheck(str, nextCheckResult)
       nextCheckResult
     }
+    else false
   }
 
+  /**
+    * @param str
+    * @return
+    */
   def check(str: String): Boolean
+
+  /**
+    * 如果检测为正常消息，是否需要传递给之后的过滤器做检测
+    * @return
+    */
+  def needNextCheck: Boolean = true
 
   def afterNextCheck(str: String, isDirty: Boolean): Unit ={
 

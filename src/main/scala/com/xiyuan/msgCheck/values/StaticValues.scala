@@ -11,7 +11,7 @@ object StaticValues {
 
   val chineseMarks = "？！。，：“”‘《》-…（）￥".toCharArray
 
-  val normalAsciiStart = 33.toChar
+  val normalAsciiStart = 32.toChar
 
   val normalAsciiEnd = 126.toChar
 

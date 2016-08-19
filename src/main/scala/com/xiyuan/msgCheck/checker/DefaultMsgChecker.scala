@@ -1,7 +1,7 @@
 package com.xiyuan.msgCheck.checker
 
 import com.xiyuan.msgCheck.filter.Filter
-import com.xiyuan.msgCheck.filter.impl.{DirtyRegexFilter, KeyLetterFilter, ChineseFilter, LengthFilter}
+import com.xiyuan.msgCheck.filter.impl._
 
 /**
   * Created by xiyuan_fengyu on 2016/8/16.
@@ -12,7 +12,8 @@ object DefaultMsgChecker {
 
   checker.setFilters(Array[Filter](
     new LengthFilter(5),
-    new ChineseFilter(0.6, 2),
+    new ChineseFilter(0.3, 2),
+    new NormalRegexFilter,
     new KeyLetterFilter,
     new DirtyRegexFilter
 
