@@ -10,20 +10,16 @@ import com.xiyuan.template.log.XYLog
 object Example {
 
   def main(args: Array[String]) {
-    val str = "2013款的上海通用别克凯越倒车影像时有时无是什么原因引起？"
+    val str = "秦皇岛小姐上门"
     println(DefaultMsgChecker.isDirty(str))
 
-    val dirtyCount = new LetterCount("Dirty")
-    val normalCount = new LetterCount("Normal")
-    XYLog.d("dirtyScore\t", dirtyCount.score(str).toString)
-    XYLog.d("normalScore\t", normalCount.score(str).toString)
+//    DefaultMsgChecker.addDirtyRegexes(Array(".*TEST.*"))
+//    DefaultMsgChecker.addNormalRegexes(Array(".*TEST.*"))
 
-    //待训练训练句子
-//    洗浴桑拿按摩
-//    三公高科技赌具
-//    铅弹模具
-//    网络推广
-//    透视麻将眼镜
+//    val dirtyCount = new LetterCount("Dirty")
+//    val normalCount = new LetterCount("Normal")
+//    XYLog.d("dirtyScore\t", dirtyCount.score(str).toString)
+//    XYLog.d("normalScore\t", normalCount.score(str).toString)
 
 
   }

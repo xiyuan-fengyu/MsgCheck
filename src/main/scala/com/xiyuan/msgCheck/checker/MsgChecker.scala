@@ -11,6 +11,14 @@ class MsgChecker {
 
   private val filters = new ArrayBuffer[Filter]()
 
+  def getFilter[T](clazz: Class[T]): T = {
+    val finder = filters.find(_.getClass == clazz)
+    if (finder.nonEmpty) {
+      finder.get.asInstanceOf[T]
+    }
+    else null.asInstanceOf[T]
+  }
+
   def addFilter(filter: Filter): Unit = {
     if (filters.nonEmpty) {
       filters.last.setNext(filter)

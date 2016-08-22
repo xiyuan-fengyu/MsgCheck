@@ -10,7 +10,7 @@ import scala.io.Source
 /**
   * Created by xiyuan_fengyu on 2016/8/16.
   */
-class LetterCount(val name: String) {
+class LetterCount(val name: String, val changeIndexToSave: Int = 500) {
 
   private val letterCount = new mutable.HashMap[Char, Int]()
 
@@ -21,8 +21,6 @@ class LetterCount(val name: String) {
   private val endChinese = '\u9fa5'
 
   private var changeIndex = 0
-
-  private val changeIndexToSave = 100
 
   private val maxImportantIndex: Double = 50
 

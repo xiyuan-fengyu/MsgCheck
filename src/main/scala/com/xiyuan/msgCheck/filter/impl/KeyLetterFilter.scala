@@ -30,7 +30,7 @@ class KeyLetterFilter extends Filter {
     val dirtyScore = dirtyLetter.score(str)
 
     if (normalScore > dirtyScore) {
-      if (normalScore / dirtyScore >= 1.5) {
+      if (dirtyScore == 0 || normalScore / dirtyScore >= 1.5) {
         normalLetter.lettersIncrease(str)
         needMoreCheck = false
       }
@@ -41,7 +41,7 @@ class KeyLetterFilter extends Filter {
       false
     }
     else {
-      if (dirtyScore / normalScore >= 1.5) {
+      if (normalScore == 0 || dirtyScore / normalScore >= 1.5) {
         dirtyLetter.lettersIncrease(str)
         needMoreCheck = false
         true
@@ -52,15 +52,6 @@ class KeyLetterFilter extends Filter {
       }
     }
 
-  }
-
-  override def afterNextCheck(str: String, isDirty: Boolean): Unit = {
-    if (isDirty) {
-      dirtyLetter.lettersIncrease(str)
-    }
-    else {
-      normalLetter.lettersIncrease(str)
-    }
   }
 
 }
