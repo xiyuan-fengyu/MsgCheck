@@ -16,11 +16,21 @@ class NormalRegexFilter extends Filter {
 
   private val regexes = new ArrayBuffer[String]()
 
+  private var needMoreCheck = false
+
   override final def check(str: String): Boolean = {
     if (regexes.isEmpty) {
       initRegexes()
     }
-    !regexes.exists(str.matches)
+    val result = regexes.exists(str.matches)
+
+    if (result) {
+      needMoreCheck = false
+    }
+    else {
+      needMoreCheck = true
+    }
+    false
   }
 
 
@@ -29,7 +39,7 @@ class NormalRegexFilter extends Filter {
     *
     * @return
     */
-  override def needNextCheck: Boolean = false
+  override def needNextCheck: Boolean = needMoreCheck
 
   def initRegexes(): Unit = {
     val regexsFile = new File(ClassUtil.classRoot + "/normalRegexes.data")

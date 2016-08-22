@@ -77,7 +77,7 @@ class LetterCount(val name: String) {
   def save(): Unit = {
     val letterCountOut = new FileOutputStream(ClassUtil.classRoot + s"/letterCount_$name.data")
     var shouldFlush = 0
-    letterCount.toArray.sortWith(_._2 >= _._2).foreach(item => {
+    letterCount.toArray.sortWith(_._2 > _._2).foreach(item => {
       letterCountOut.write((item._1 + "," + item._2 + "\n").getBytes("utf-8"))
       if (shouldFlush > 500) {
         letterCountOut.flush()
@@ -97,22 +97,24 @@ class LetterCount(val name: String) {
     if (!saveFile.exists()) {
       //从jar中提取data文件，并存储到class目录下
       val in = this.getClass.getClassLoader.getResourceAsStream(s"letterCount_$name.data")
-      val reader = new BufferedReader(new InputStreamReader(in, "utf-8"))
-      val out = new FileOutputStream(saveFile)
-      val writer = new OutputStreamWriter(out, "utf-8")
+      if (in != null) {
+        val reader = new BufferedReader(new InputStreamReader(in, "utf-8"))
+        val out = new FileOutputStream(saveFile)
+        val writer = new OutputStreamWriter(out, "utf-8")
 
-      var line = reader.readLine()
-      while (line != null) {
-        writer.write(line + "\n")
-        writer.flush()
-        line = reader.readLine()
+        var line = reader.readLine()
+        while (line != null) {
+          writer.write(line + "\n")
+          writer.flush()
+          line = reader.readLine()
+        }
+
+        in.close()
+        reader.close()
+
+        out.close()
+        writer.close()
       }
-
-      in.close()
-      reader.close()
-
-      out.close()
-      writer.close()
     }
 
     if (saveFile.exists()) {

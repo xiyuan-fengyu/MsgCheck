@@ -1,6 +1,8 @@
 package com.xiyuan
 
 import com.xiyuan.msgCheck.checker.DefaultMsgChecker
+import com.xiyuan.msgCheck.filter.impl.LetterCount
+import com.xiyuan.template.log.XYLog
 
 /**
   * Created by xiyuan_fengyu on 2016/8/16.
@@ -8,8 +10,22 @@ import com.xiyuan.msgCheck.checker.DefaultMsgChecker
 object Example {
 
   def main(args: Array[String]) {
-    println(DefaultMsgChecker.isDirty("嘉年华两厢 防盗锁上了 如何解开嘉年华两厢的 防盗锁上了 如何解开"))
-    println(DefaultMsgChecker.isDirty("正网开户亚洲总代理"))
+    val str = "2013款的上海通用别克凯越倒车影像时有时无是什么原因引起？"
+    println(DefaultMsgChecker.isDirty(str))
+
+    val dirtyCount = new LetterCount("Dirty")
+    val normalCount = new LetterCount("Normal")
+    XYLog.d("dirtyScore\t", dirtyCount.score(str).toString)
+    XYLog.d("normalScore\t", normalCount.score(str).toString)
+
+    //待训练训练句子
+//    洗浴桑拿按摩
+//    三公高科技赌具
+//    铅弹模具
+//    网络推广
+//    透视麻将眼镜
+
+
   }
 
 }

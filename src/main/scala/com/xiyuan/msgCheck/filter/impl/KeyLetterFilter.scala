@@ -16,19 +16,42 @@ class KeyLetterFilter extends Filter {
     */
   private val minScoreToUpdateLetterCount = 0.03
 
+  private var needMoreCheck = false
+
+  /**
+    * 如果检测为正常消息，是否需要传递给之后的过滤器做检测
+    *
+    * @return
+    */
+  override def needNextCheck: Boolean = needMoreCheck
+
   override def check(str: String): Boolean = {
     val normalScore = normalLetter.score(str)
     val dirtyScore = dirtyLetter.score(str)
 
     if (normalScore > dirtyScore) {
+      if (normalScore / dirtyScore >= 1.5) {
+        normalLetter.lettersIncrease(str)
+        needMoreCheck = false
+      }
+      else {
+        needMoreCheck = true
+      }
+
       false
     }
     else {
-      if (dirtyScore >= minScoreToUpdateLetterCount && dirtyScore / normalScore >= 3.0) {
+      if (dirtyScore / normalScore >= 1.5) {
         dirtyLetter.lettersIncrease(str)
+        needMoreCheck = false
+        true
       }
-      true
+      else {
+        needMoreCheck = true
+        false
+      }
     }
+
   }
 
   override def afterNextCheck(str: String, isDirty: Boolean): Unit = {

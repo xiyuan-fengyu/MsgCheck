@@ -13,8 +13,8 @@ object DefaultMsgChecker {
   checker.setFilters(Array[Filter](
     new LengthFilter(5),
     new ChineseFilter(0.3, 2),
-    new NormalRegexFilter,
     new KeyLetterFilter,
+    new NormalRegexFilter,
     new DirtyRegexFilter
 
   ))

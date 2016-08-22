@@ -30,7 +30,8 @@ class MsgChecker {
       false
     }
     else {
-      filters.head.isDirty(str.toLowerCase)
+      val tempStr = str.toLowerCase.replaceAll("\n", "")
+      filters.head.isDirty(tempStr)
     }
   }
 
