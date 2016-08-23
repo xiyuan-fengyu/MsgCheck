@@ -10,16 +10,13 @@ import com.xiyuan.template.log.XYLog
 object Example {
 
   def main(args: Array[String]) {
-    val str = "秦皇岛小姐上门"
+    val str = "马鞍山哪里有红灯区"
     println(DefaultMsgChecker.isDirty(str))
 
-//    DefaultMsgChecker.addDirtyRegexes(Array(".*TEST.*"))
-//    DefaultMsgChecker.addNormalRegexes(Array(".*TEST.*"))
-
-//    val dirtyCount = new LetterCount("Dirty")
-//    val normalCount = new LetterCount("Normal")
-//    XYLog.d("dirtyScore\t", dirtyCount.score(str).toString)
-//    XYLog.d("normalScore\t", normalCount.score(str).toString)
+    val dirtyCount = new LetterCount("Dirty")
+    val normalCount = new LetterCount("Normal")
+    XYLog.d("dirtyScore\t", dirtyCount.score(str).toString)
+    XYLog.d("normalScore\t", normalCount.score(str).toString)
 
 
   }
