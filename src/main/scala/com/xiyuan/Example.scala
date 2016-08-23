@@ -10,7 +10,7 @@ import com.xiyuan.template.log.XYLog
 object Example {
 
   def main(args: Array[String]) {
-    val str = "马鞍山哪里有红灯区"
+    val str = "长安镇长盛小姐找可以联系包夜电话信息"
     println(DefaultMsgChecker.isDirty(str))
 
     val dirtyCount = new LetterCount("Dirty")
