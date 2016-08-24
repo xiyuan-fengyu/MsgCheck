@@ -8,7 +8,6 @@ import com.xiyuan.template.util.ClassUtil
 
 /**
   * Created by xiyuan_fengyu on 2016/8/23.
-  model测试
   */
 object ModelTest {
 
@@ -20,10 +19,22 @@ object ModelTest {
     var line = scanner.nextLine()
     while (line != "QUIT") {
       if(line.nonEmpty) {
-        val score = model.score(line)
-        val temp = score._1 / math.max(score._2, 0.000000000001)
+        if (line.startsWith("key ")) {
+          val key = line.substring(4)
+          XYLog.d(key, "\n", model.showKey(key), "\n\n")
+        }
+        else if (line.startsWith("delete ")) {
+          val key = line.substring(7)
+          model.deleteKey(key)
+          XYLog.d(key + " 已从model中删除", "\n\n")
+        }
+        else {
+          val score = model.score(line)
+          val wil = model.wilcoxon(line)
+          val temp = score._1 / math.max(score._2, 0.000000000001)
 
-        XYLog.d(line + "\n", score._1 + "\t\t" + score._2 + "\t\t" + temp + "\t\t", if (temp >= 1) "正常" else "垃圾", "\n\n")
+          XYLog.d(line + "\n", "normal = " + score._1 + "\t\tdirty = " + score._2 + "\t\tnormal / dirty = " + temp + "\t\t","wil=" + wil + "\t\t", if (temp >= 2 && wil >= -1.5) "正常" else "垃圾", "\n\n")
+        }
       }
       line = scanner.nextLine()
     }

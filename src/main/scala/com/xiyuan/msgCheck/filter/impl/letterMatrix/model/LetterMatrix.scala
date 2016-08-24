@@ -4,6 +4,7 @@ import java.io._
 import java.util.zip.{Deflater, DeflaterOutputStream, Inflater, InflaterInputStream}
 
 import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by xiyuan_fengyu on 2016/8/23.
@@ -69,11 +70,6 @@ class LetterMatrix {
     train(1, dataPath)
   }
 
-  def loadModel(modelPath: String): Unit = {
-    val in = new FileInputStream(modelPath)
-    loadModel(in)
-  }
-
   def loadModel(in: InputStream): Unit = {
     matrix.clear()
     normalMatrixTotal = 0
@@ -97,6 +93,11 @@ class LetterMatrix {
     }
     reader.close()
     in.close()
+  }
+
+  def loadModel(modelPath: String): Unit = {
+    val in = new FileInputStream(modelPath)
+    loadModel(in)
   }
 
   def saveModel(modelPath: String): Unit ={
@@ -133,8 +134,8 @@ class LetterMatrix {
 
           if (matrix.contains(key)) {
             val temp = matrix(key)
-            normalScore += temp.normal
-            dirtyScore += temp.dirty
+            normalScore += math.pow(temp.normal, 0.5)
+            dirtyScore += math.pow(temp.dirty, 0.5)
           }
         }
       }
@@ -143,6 +144,82 @@ class LetterMatrix {
     normalScore = normalScore / normalMatrixTotal
     dirtyScore = dirtyScore / dirtyMatrixTotal
     (normalScore, dirtyScore)
+  }
+
+  def wilcoxon(str: String): Double = {
+    if (str.isEmpty) return Int.MinValue
+
+    val msgItem = new MsgItem(str)
+    var normalArr = new ArrayBuffer[Int]()
+    var dirtyArr = new ArrayBuffer[Int]()
+
+    val len = msgItem.chars.length
+    if (len > 1) {
+      for (i <- msgItem.chars.indices) {
+        for (j <- 1 to 3; if i + j < len) {
+          val x = msgItem.chars(i)
+          val y = msgItem.chars(i + j)
+          val key = x.toString + "*" * (j - 1) + y
+
+          if (matrix.contains(key)) {
+            val temp = matrix(key)
+            normalArr += temp.normal
+            dirtyArr += temp.dirty
+          }
+        }
+      }
+    }
+
+    val normalLen = normalArr.length
+    val dirtyLen = dirtyArr.length
+
+    if (normalLen + dirtyLen == 0) {
+      return Int.MinValue
+    }
+
+    val allArr = new ArrayBuffer[MTuple3[Int, Int, Double]](normalLen + dirtyLen)
+    normalArr.foreach(item => allArr += new MTuple3[Int, Int, Double](0, item, 0))
+    dirtyArr.foreach(item => allArr += new MTuple3[Int, Int, Double](1, item, 0))
+    val sortedAllArr = allArr.sortWith(_._2 < _._2)
+    var lastI = 0
+    var lastV = sortedAllArr(0)._2
+    for (i <- sortedAllArr.indices) {
+      sortedAllArr(i)._3 = i + 1
+
+      val curV = sortedAllArr(i)._2
+      if (lastV != curV) {
+        val index = (lastI until i).sum / (i - lastI).toDouble + 1
+        for (j <- lastI until i) {
+          sortedAllArr(j)._3 = index
+        }
+
+        lastI = i
+        lastV = curV
+      }
+    }
+
+    var normalSum: Double = 0
+    var dirtySum: Double = 0
+    sortedAllArr.foreach(item => {
+      if (item._1 == 0) {
+        normalSum += item._3
+      }
+      else {
+        dirtySum += item._3
+      }
+    })
+
+    val t = normalSum
+    val result = (t - normalLen * (normalLen + dirtyLen + 1) / 2.0) / math.pow(normalLen * dirtyLen * (normalLen + dirtyLen + 1) / 12.0, 0.5)
+    result
+  }
+
+  def showKey(key: String): (Int, Double, Int, Double) = {
+    if (matrix.contains(key)) {
+      val item = matrix(key)
+      (item.normal, item.normal / normalMatrixTotal.toDouble, item.dirty, item.dirty / dirtyMatrixTotal.toDouble)
+    }
+    else (0, 0, 0, 0)
   }
 
   def deleteKey(key: String): Unit ={
