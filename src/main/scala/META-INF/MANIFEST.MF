@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: scala-reflect-2.11.4.jar asm-5.0.3.jar scala-library-2.11.
- 4.jar scala-parser-combinators_2.11-1.0.2.jar scala-xml_2.11-1.0.5.ja
- r scala-compiler-2.11.4.jar
-Main-Class: com.xiyuan.Example
-
