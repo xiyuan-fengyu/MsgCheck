@@ -181,21 +181,24 @@ class LetterMatrix {
     normalArr.foreach(item => allArr += new MTuple3[Int, Int, Double](0, item, 0))
     dirtyArr.foreach(item => allArr += new MTuple3[Int, Int, Double](1, item, 0))
     val sortedAllArr = allArr.sortWith(_._2 < _._2)
+    val allLen = sortedAllArr.length
     var lastI = 0
     var lastV = sortedAllArr(0)._2
-    for (i <- sortedAllArr.indices) {
-      sortedAllArr(i)._3 = i + 1
-
-      val curV = sortedAllArr(i)._2
-      if (lastV != curV) {
-        val index = (lastI until i).sum / (i - lastI).toDouble + 1
+    var curIndexSum = 0
+    for (i <- 0 to allLen) {
+      if ((i < allLen && sortedAllArr(i)._2 != lastV) || i == allLen) {
+        val index = curIndexSum / (i - lastI).toDouble
         for (j <- lastI until i) {
           sortedAllArr(j)._3 = index
         }
 
         lastI = i
-        lastV = curV
+        if (i < allLen) {
+          lastV = sortedAllArr(i)._2
+        }
+        curIndexSum = 0
       }
+      curIndexSum += i + 1
     }
 
     var normalSum: Double = 0
