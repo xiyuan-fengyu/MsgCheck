@@ -1,7 +1,6 @@
 package com.xiyuan.template
 
 import com.xiyuan.msgCheck.filter.impl.letterMatrix.model.MTuple3
-import com.xiyuan.template.log.XYLog
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -11,8 +10,8 @@ import scala.collection.mutable.ArrayBuffer
 object Test {
 
   def main(args: Array[String]) {
-    var normalArr = Array(1,2,3,4,5)
-    var dirtyArr = Array(5,7,8,10,10,10)
+    val normalArr = Array(142, 264, 1203, 87, 78, 134, 24567, 235, 478, 2567, 975, 15689)
+    val dirtyArr = Array(2659871, 809296, 8180043, 804567, 289760, 343400, 5004567, 589760, 243400, 305800, 303400, 1864066)
 
     val normalLen = normalArr.length
     val dirtyLen = dirtyArr.length
