@@ -42,6 +42,11 @@ abstract class Filter {
     */
   def needNextCheck: Boolean = true
 
+  /**
+    * 下一层过滤器判定完成后的回调
+    * @param str
+    * @param isDirty
+    */
   def afterNextCheck(str: String, isDirty: Boolean): Unit ={
 
   }
