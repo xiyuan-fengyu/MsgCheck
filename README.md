@@ -30,8 +30,8 @@ object Example {
 ```
 <br>
 <br>
-LetterMatrixFilter的核心组件为LetterMatrix，可以通过 [这里](https://github.com/xiyuan-fengyu/MsgCheck/blob/master/src/main/scala/com/xiyuan/msgCheck/filter/impl/letterMatrix/trainAndTest/ModelTest.scala)来体验这个组件，这个例子支持三种输入：<br>
-key {content}   //用于查看某个key的垃圾占比和正常占比,key的集中形式：AB,A*B,A**B,分别表示A和B相邻，A和B中间隔开一个字符，A和B中间隔开两个字符<br>
+LetterMatrixFilter的核心组件为LetterMatrix，可以通过 [这里](https://github.com/xiyuan-fengyu/MsgCheck/blob/master/src/main/scala/com/xiyuan/msgCheck/filter/impl/letterMatrix/trainAndTest/ModelTest.scala) 来体验这个组件，这个例子支持三种输入：<br>
+key {content}   //用于查看某个key的垃圾占比和正常占比,key的几种形式：AB,A*B,A**B,分别表示A和B相邻，A和B中间隔开一个字符，A和B中间隔开两个字符<br>
 delete {key}    //临时删除一个key，如果需要从模型中永久删除这个key，需要在删除后save模型<br>
 {content}       //判断一句话是否为垃圾信息<br>
 <br>
