@@ -1,7 +1,6 @@
 package com.xiyuan.msgCheck.checker
 
 import com.xiyuan.msgCheck.filter.Filter
-import com.xiyuan.msgCheck.filter.impl._
 import com.xiyuan.msgCheck.filter.impl.chinese.ChineseFilter
 import com.xiyuan.msgCheck.filter.impl.length.LengthFilter
 import com.xiyuan.msgCheck.filter.impl.letterMatrix.LetterMatrixFilter
@@ -18,7 +17,7 @@ object DefaultMsgChecker {
     new LengthFilter(5),
     new ChineseFilter(0.3, 2),
     new DirtyRegexFilter,
-    new NormalRegexFilter,
+//    new NormalRegexFilter,
     new LetterMatrixFilter
 
   ))
