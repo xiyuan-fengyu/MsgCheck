@@ -18,7 +18,7 @@ object DefaultMsgCheckerTest {
     var line = scanner.nextLine()
     while (line != "QUIT") {
       if(line.nonEmpty) {
-        XYLog.d(if (DefaultMsgChecker.isDirty(line)) "垃圾" else "正常", "\n")
+        XYLog.d(line, "\n", if (DefaultMsgChecker.isDirty(line)) "垃圾" else "正常", "\n")
       }
       line = scanner.nextLine()
     }
