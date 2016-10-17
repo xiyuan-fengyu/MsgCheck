@@ -23,6 +23,14 @@ object ModelTest {
           val key = line.substring(4)
           XYLog.d(key, "\n", model.showKey(key), "\n\n")
         }
+        else if (line.startsWith("keys ")) {
+          val str = line.substring(5)
+          XYLog.d(str + " 的关键词占比信息：\n")
+          model.keyInfosForStr(str).foreach(item => {
+            println(item._1 + "\t\t" + item._2 + "\t\t" + item._3)
+          })
+          println("\n\n")
+        }
         else if (line.startsWith("delete ")) {
           val key = line.substring(7)
           model.deleteKey(key)

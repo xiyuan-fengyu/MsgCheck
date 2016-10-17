@@ -217,6 +217,27 @@ class LetterMatrix {
     result
   }
 
+  def keyInfosForStr(str: String): Array[Tuple3[String, Double, Double]] = {
+    val msgItem = new MsgItem(str)
+    var infoArr = new ArrayBuffer[Tuple3[String, Double, Double]]()
+    val len = msgItem.chars.length
+    if (len > 1) {
+      for (i <- msgItem.chars.indices) {
+        for (j <- 1 to 3; if i + j < len) {
+          val x = msgItem.chars(i)
+          val y = msgItem.chars(i + j)
+          val key = x.toString + "*" * (j - 1) + y
+
+          if (matrix.contains(key)) {
+            val temp = matrix(key)
+            infoArr += Tuple3(key, temp.normal / normalMatrixTotal.toDouble, temp.dirty / dirtyMatrixTotal.toDouble)
+          }
+        }
+      }
+    }
+    infoArr.toArray
+  }
+
   def showKey(key: String): (Int, Double, Int, Double) = {
     if (matrix.contains(key)) {
       val item = matrix(key)
