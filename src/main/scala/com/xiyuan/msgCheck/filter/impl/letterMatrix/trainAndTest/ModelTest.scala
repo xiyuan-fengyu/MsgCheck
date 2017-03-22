@@ -72,6 +72,7 @@ object ModelTest {
         else if (line.startsWith("save ")) {
           try {
             val path = line.substring(5)
+            XYLog.d("正在保存模型...")
             model.saveModel(path)
             XYLog.d("模型保存成功，保存路径：" + path, "\n\n")
           }
