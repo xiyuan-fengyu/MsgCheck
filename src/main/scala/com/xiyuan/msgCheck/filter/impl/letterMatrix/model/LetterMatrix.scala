@@ -17,37 +17,42 @@ class LetterMatrix {
 
   private var normalMatrixTotal = 0
 
-  private def train(label: Int, dataPath: String): Unit = {
+  private def train(label: Int, sentence: String, rate: Int): Unit = {
+    val msgItem = new MsgItem(sentence)
+    if (msgItem.chars.length > 1) {
+      val len = msgItem.chars.length
+      for (i <- msgItem.chars.indices) {
+        for (j <- 1 to 3; if i + j < len) {
+          val x = msgItem.chars(i)
+          val y = msgItem.chars(i + j)
+          val key = x.toString + "*" * (j - 1) + y
+
+          val normalAndDirty: NormalAndDirty = if (!matrix.contains(key)) {
+            val temp = new NormalAndDirty(0, 0)
+            matrix += key -> temp
+            temp
+          }
+          else matrix(key)
+
+          if (label == 0) {
+            normalAndDirty.normal += rate
+          }
+          else {
+            normalAndDirty.dirty += rate
+          }
+        }
+      }
+    }
+
+  }
+
+  private def trainFromFile(label: Int, dataPath: String, rate: Int): Unit = {
     val in  = new FileInputStream(dataPath)
     val reader = new BufferedReader(new InputStreamReader(in, "utf-8"))
     var line = reader.readLine()
     var count = 0
     while (line != null) {
-      val msgItem = new MsgItem(line)
-      if (msgItem.chars.length > 1) {
-        val len = msgItem.chars.length
-        for (i <- msgItem.chars.indices) {
-          for (j <- 1 to 3; if i + j < len) {
-            val x = msgItem.chars(i)
-            val y = msgItem.chars(i + j)
-            val key = x.toString + "*" * (j - 1) + y
-
-            val normalAndDirty: NormalAndDirty = if (!matrix.contains(key)) {
-              val temp = new NormalAndDirty(0, 0)
-              matrix += key -> temp
-              temp
-            }
-            else matrix(key)
-
-            if (label == 0) {
-              normalAndDirty.normal += 1
-            }
-            else {
-              normalAndDirty.dirty += 1
-            }
-          }
-        }
-      }
+      train(label, line, rate)
 
       line = reader.readLine()
 
@@ -62,12 +67,20 @@ class LetterMatrix {
     in.close()
   }
 
-  def trainNormal(dataPath: String): Unit ={
-    train(0, dataPath)
+  def trainNormal(sentence: String, rate: Int = 1): Unit ={
+    train(0, sentence, rate)
   }
 
-  def trainDirty(dataPath: String): Unit ={
-    train(1, dataPath)
+  def trainDirty(sentence: String, rate: Int = 1): Unit ={
+    train(1, sentence, rate)
+  }
+
+  def trainNormalFromFile(dataPath: String, rate: Int = 1): Unit ={
+    trainFromFile(0, dataPath, rate)
+  }
+
+  def trainDirtyFromFile(dataPath: String, rate: Int = 1): Unit ={
+    trainFromFile(1, dataPath, rate)
   }
 
   def loadModel(in: InputStream): Unit = {

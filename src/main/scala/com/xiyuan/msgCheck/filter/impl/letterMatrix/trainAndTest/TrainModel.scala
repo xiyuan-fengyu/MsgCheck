@@ -10,8 +10,8 @@ object TrainModel {
 
   def main(args: Array[String]) {
     val model = new LetterMatrix
-    model.trainDirty("D:\\SoftwareForCode\\MyEclipseProject\\CarMsgFilter\\target\\classes\\DirtyMsg.raw")
-    model.trainNormal("D:\\SoftwareForCode\\MyEclipseProject\\CarMsgFilter\\target\\classes\\NormalMsg.raw")
+    model.trainDirtyFromFile("D:\\SoftwareForCode\\MyEclipseProject\\CarMsgFilter\\target\\classes\\DirtyMsg.raw")
+    model.trainDirtyFromFile("D:\\SoftwareForCode\\MyEclipseProject\\CarMsgFilter\\target\\classes\\NormalMsg.raw")
     model.saveModel(ClassUtil.classRoot + "/LetterMatrix.mdl")
   }
 
