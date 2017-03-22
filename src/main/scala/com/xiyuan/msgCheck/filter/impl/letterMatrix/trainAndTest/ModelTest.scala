@@ -56,7 +56,7 @@ object ModelTest {
               model.trainNormal(sentance, rateI)
             }
             else {
-              model.trainNormal(sentance, rateI)
+              model.trainDirty(sentance, rateI)
             }
             XYLog.d("训练后，" + sentance + " 的关键词占比信息：\n")
             keys(model, sentance)
