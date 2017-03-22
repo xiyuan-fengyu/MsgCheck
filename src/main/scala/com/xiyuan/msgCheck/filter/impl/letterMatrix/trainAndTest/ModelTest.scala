@@ -52,6 +52,7 @@ object ModelTest {
             val rateI = rate.toInt
             XYLog.d("训练前，" + sentance + " 的关键词占比信息：\n")
             keys(model, sentance)
+            check(model, sentance)
             if (msgType == "normal") {
               model.trainNormal(sentance, rateI)
             }
@@ -60,6 +61,7 @@ object ModelTest {
             }
             XYLog.d("训练后，" + sentance + " 的关键词占比信息：\n")
             keys(model, sentance)
+            check(model, sentance)
             XYLog.d("模型训练完成", "\n\n")
           }
           catch {
@@ -79,11 +81,7 @@ object ModelTest {
           }
         }
         else {
-          val score = model.score(line)
-          val wil = model.wilcoxon(line)
-          val temp = score._1 / math.max(score._2, 0.000000000001)
-
-          XYLog.d(line + "\n", "normal = " + score._1 + "\t\tdirty = " + score._2 + "\t\tnormal / dirty = " + temp + "\t\t","wil=" + wil + "\t\t", if (temp >= 2 && wil >= -1.5) "正常" else "垃圾", "\n\n")
+          check(model, line)
         }
       }
       line = scanner.nextLine().trim
@@ -94,6 +92,14 @@ object ModelTest {
     model.keyInfosForStr(sentense).foreach(item => {
       println(item._1 + "\t\t" + item._2 + "\t\t" + item._3)
     })
+  }
+
+  private def check(model: LetterMatrix, sentense: String): Unit = {
+    val score = model.score(sentense)
+    val wil = model.wilcoxon(sentense)
+    val temp = score._1 / math.max(score._2, 0.000000000001)
+
+    XYLog.d(sentense + "\n", "normal = " + score._1 + "\t\tdirty = " + score._2 + "\t\tnormal / dirty = " + temp + "\t\t","wil=" + wil + "\t\t", if (temp >= 2 && wil >= -1.5) "正常" else "垃圾", "\n\n")
   }
 
 }
